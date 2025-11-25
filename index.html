@@ -7,6 +7,14 @@
     <!-- Load Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
+        /* Ensures HTML and Body take up the full viewport */
+        html, body {
+            height: 100%;
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling */
+        }
+        
         /* Custom styles to ensure the canvas covers the full content area */
         #fireworks-canvas {
             display: block;
@@ -22,21 +30,21 @@
         }
     </style>
 </head>
-<body class="bg-gray-900 flex flex-col items-center justify-center min-h-screen text-white p-4">
+<body class="bg-gray-900 text-white">
 
-    <!-- Title and Instructions -->
-    <div class="z-10 text-center mb-4 bg-gray-800/70 p-4 rounded-xl shadow-2xl border border-gray-700 max-w-lg w-full">
+    <!-- Canvas Container (Fills the entire screen) -->
+    <div id="canvas-container" class="fixed inset-0 w-full h-full">
+        <canvas id="fireworks-canvas"></canvas>
+    </div>
+
+    <!-- Title and Instructions (Floats over the canvas) -->
+    <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-20 text-center bg-gray-800/70 p-4 rounded-xl shadow-2xl border border-gray-700 max-w-lg w-full md:max-w-md">
         <h1 class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-yellow-300 to-red-500 mb-1">
             🎆 Fireworks Simulator
         </h1>
         <p class="text-sm text-gray-300">
             Click or tap anywhere on the dark screen to launch a new firework!
         </p>
-    </div>
-
-    <!-- Canvas Container -->
-    <div id="canvas-container" class="relative w-full max-w-6xl flex-grow rounded-xl overflow-hidden shadow-2xl border border-gray-700">
-        <canvas id="fireworks-canvas"></canvas>
     </div>
 
     <script>
@@ -61,9 +69,10 @@
             canvas.height = canvas.offsetHeight;
         }
 
+        // We call resize immediately and listen for load/resize events
+        resizeCanvas();
         window.addEventListener('load', () => {
-            resizeCanvas();
-            // Start the main loop
+            // Start the main loop after load
             animate();
         });
         window.addEventListener('resize', resizeCanvas);
