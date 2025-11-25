@@ -15,11 +15,9 @@
             overflow: hidden; /* Prevent scrolling */
         }
         
-        /* Custom styles to ensure the canvas covers the full content area */
+        /* Custom styles for the canvas (positioning is now handled by Tailwind classes on the element itself) */
         #fireworks-canvas {
             display: block;
-            width: 100%;
-            height: 100%;
             background-color: #0b0c10; /* Very dark background for sky */
             cursor: crosshair;
         }
@@ -32,10 +30,8 @@
 </head>
 <body class="bg-gray-900 text-white">
 
-    <!-- Canvas Container (Fills the entire screen) -->
-    <div id="canvas-container" class="fixed inset-0 w-full h-full">
-        <canvas id="fireworks-canvas"></canvas>
-    </div>
+    <!-- Canvas element now covers the entire viewport using fixed positioning -->
+    <canvas id="fireworks-canvas" class="fixed inset-0 w-full h-full"></canvas>
 
     <!-- Title and Instructions (Floats over the canvas) -->
     <div class="fixed top-4 left-1/2 transform -translate-x-1/2 z-20 text-center bg-gray-800/70 p-4 rounded-xl shadow-2xl border border-gray-700 max-w-lg w-full md:max-w-md">
@@ -65,6 +61,7 @@
 
         // Ensure canvas is resized to fill its container
         function resizeCanvas() {
+            // Since we applied fixed inset-0, offsetWidth/offsetHeight should now reliably be the viewport size
             canvas.width = canvas.offsetWidth;
             canvas.height = canvas.offsetHeight;
         }
